@@ -22,7 +22,6 @@ KUBE_API_PORT="--port=8080"
 KUBELET_PORT="--kubelet-port=10250"
 KUBE_ETCD_SERVERS="--etcd-servers=http://${KUBE_MASTER_FQDN}:2379"
 KUBE_SERVICE_ADDRESSES="--service-cluster-ip-range=10.254.0.0/16"
-KUBE_ADMISSION_CONTROL="--admission-control=NamespaceLifecycle,NamespaceExists,LimitRanger,SecurityContextDeny,ServiceAccount,ResourceQuota"
 KUBE_API_ARGS=""
 # systemctl restart etcd kube-apiserver kube-controller-manager kube-scheduler
 # systemctl enable etcd kube-apiserver kube-controller-manager kube-scheduler
