@@ -12,12 +12,12 @@
 # echo "proxy=http://${PROXY_SERVER}:${PROXY_PORT}/" >> /etc/dnf/dnf.conf
 # dnf install -y httpd
 # echo 'hello container' > /var/www/html/index.html
-# echo '#!/bin/bash' > /root/httpd.sh
-# echo 'rm -rf /run/httpd' >> /root/httpd.sh
-# echo 'install -m 710 -o root -g apache -d /run/httpd' >> /root/httpd.sh
-# echo 'install -m 700 -o apache -g apache -d /run/httpd/htcacheclean' >> /root/httpd.sh
-# echo 'exec /usr/sbin/apachectl -D FOREGROUND' >> /root/httpd.sh
-# chmod 700 /root/httpd.sh
+# echo '#!/bin/bash' > /root/httpd_startup.sh
+# echo 'rm -rf /run/httpd' >> /root/httpd_startup.sh
+# echo 'install -m 710 -o root -g apache -d /run/httpd' >> /root/httpd_startup.sh
+# echo 'install -m 700 -o apache -g apache -d /run/httpd/htcacheclean' >> /root/httpd_startup.sh
+# echo 'exec /usr/sbin/apachectl -D FOREGROUND' >> /root/httpd_startup.sh
+# chmod 700 /root/httpd_startup.sh
 # exit
 ```
 * Check containers
@@ -42,7 +42,7 @@ docker.io/fedora    latest              1f8ec1108a3f        12 days ago         
 ```
 * Launch httpd container from image
 ```bash
-# docker run -d -p 8080:80 fedora/httpd /root/httpd.sh
+# docker run -d -p 8080:80 fedora/httpd /root/httpd_startup.sh
 b41c37dc511eb864024665271b1f7777003e87337774e81b9bc30f740e6c3238
 ```
 * Test HTTP Server by open http://${ATOMIC_HOST}:8080/
