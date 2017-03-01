@@ -153,6 +153,10 @@ kubernetes      10.254.0.1     <none>        443/TCP    3m
 ```bash
 # curl http://${KUBE_NODE_FQDN}:8080
 <html><body><h1>It works!</h1></body></html>
+```
+
+## Terminate pod and service
+```bash
 # kubectl delete pods --all
 pod "httpd-pod" deleted
 # kubectl delete services --all
