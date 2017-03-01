@@ -6,6 +6,7 @@
 
 FROM docker.io/fedora
 MAINTAINER ${MAINTAINER_NAME}
+ENV ${VARIABLE} ${VALUE}
 
 # SET INTERNET PROXY SERVER
 RUN echo "proxy=http://${PROXY_SERVER}:${PROXY_PORT}/" >> /etc/dnf/dnf.conf
