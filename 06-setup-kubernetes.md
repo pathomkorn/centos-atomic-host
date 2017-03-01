@@ -75,7 +75,7 @@ NAME                  STATUS    AGE
 ${KUBE_NODE_FQDN}     Ready     8m
 ```
 
-# Create pod
+## Create pod
 ```bash
 # vi httpd-pod.yml
 apiVersion: v1
@@ -127,7 +127,7 @@ ac377f85cf54        httpd                                                       
 1ae854d7d8ac        registry.access.redhat.com/rhel7/pod-infrastructure:latest   "/pod"               About a minute ago   Up About a minute   0.0.0.0:8080->80/tcp   k8s_POD.bb810da1_httpd-pod_default_606beb74-feaf-11e6-85eb-00505681075c_12860aee
 ```
 
-# Create service
+## Create service
 ```bash
 # vi httpd-service.yml
 apiVersion: v1
@@ -149,7 +149,7 @@ kubernetes      10.254.0.1     <none>        443/TCP    3m
 [root@kubernetes ~]#
 ```
 
-# Verification
+## Verification
 ```bash
 # curl http://${KUBE_NODE_FQDN}:8080
 <html><body><h1>It works!</h1></body></html>
