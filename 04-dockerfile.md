@@ -1,4 +1,5 @@
 # Dockerfile
+* Create new empty directory
 * New file with name "Dockerfile"
 ```
 # WEB SERVER EXAMPLE
