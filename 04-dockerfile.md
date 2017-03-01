@@ -28,3 +28,7 @@ Step 4 : RUN dnf install -y httpd
 Step 5 : RUN echo 'hello container' > /var/www/html/index.html
 Successfully built 2c5d1b5e1962
 ```
+* Run container
+```bash
+# docker run -t -p 8080:80 -i fedora/httpd-file /usr/sbin/httpd -DFOREGROUND
+```
