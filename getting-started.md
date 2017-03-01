@@ -79,6 +79,35 @@ Trying to pull repository docker.io/library/fedora ...
 latest: Pulling from docker.io/library/fedora
 1b39978eabd9: Pull complete
 Digest: sha256:8d3f642aa4d3fa8f9dc52ab0e3bbbe8bc2494843dc6ebb26c4a6958db888e5a2
--bash-4.2#
-
+```
+* Show local docker images
+```bash
+# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+docker.io/fedora    latest              1f8ec1108a3f        12 days ago         230.3 MB
+# cat /var/lib/docker/image/devicemapper/repositories.json
+{"Repositories":{"docker.io/fedora":{"docker.io/fedora:latest":"sha256:1f8ec1108a3fd027acd5d0bcc574afc179d15e9469b887e015d92116b853eed8","docker.io/fedora@sha256:8d3f642aa4d3fa8f9dc52ab0e3bbbe8bc2494843dc6ebb26c4a6958db888e5a2":"sha256:1f8ec1108a3fd027acd5d0bcc574afc179d15e9469b887e015d92116b853eed8"}}}
+```
+* Tag images
+```bash
+# docker tag 1f8ec1108a3f fedora/2017-03-01
+# docker images
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+docker.io/fedora    latest              1f8ec1108a3f        12 days ago         230.3 MB
+fedora/2017-03-01   latest              1f8ec1108a3f        12 days ago         230.3 MB
+```
+* Remove local docker images
+```bash
+# docker rmi docker.io/fedora
+Untagged: docker.io/fedora:latest
+Untagged: docker.io/fedora@sha256:8d3f642aa4d3fa8f9dc52ab0e3bbbe8bc2494843dc6ebb26c4a6958db888e5a2
+# docker rmi fedora/2017-03-01
+Untagged: fedora/2017-03-01:latest
+Deleted: sha256:1f8ec1108a3fd027acd5d0bcc574afc179d15e9469b887e015d92116b853eed8
+Deleted: sha256:bf973ec11f37bce787f28f7ccf15aa42e6c20188c5267caea4973f802edec873
+```
+* Import/export docker images
+```bash
+# docker load -i ${DOCKER_IMAGE_FILE}
+# docker save ${DOCKER_IMAGE_NAME} > ${DOCKER_IMAGE_FILE}
 ```
