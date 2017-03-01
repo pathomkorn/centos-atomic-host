@@ -22,6 +22,7 @@ KUBE_API_PORT="--port=8080"
 KUBELET_PORT="--kubelet-port=10250"
 KUBE_ETCD_SERVERS="--etcd-servers=http://${KUBE_MASTER_FQDN}:2379"
 KUBE_SERVICE_ADDRESSES="--service-cluster-ip-range=10.254.0.0/16"
+KUBE_ADMISSION_CONTROL="--admission-control=NamespaceLifecycle,NamespaceExists,LimitRanger,SecurityContextDeny,ServiceAccount,ResourceQuota"
 KUBE_API_ARGS=""
 # systemctl restart etcd kube-apiserver kube-controller-manager kube-scheduler
 # systemctl enable etcd kube-apiserver kube-controller-manager kube-scheduler
@@ -72,4 +73,89 @@ ${MASTER}    ${MASTER_IP}:6443     28m
 # kubectl get nodes
 NAME                  STATUS    AGE
 ${KUBE_NODE_FQDN}     Ready     8m
+```
+
+# Create pod
+```bash
+# vi httpd-pod.yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: httpd-pod
+  labels:
+    name: httpd-pod
+spec:
+  containers:
+    - name: centos1
+      image: httpd
+      ports:
+        - containerPort: 80
+          hostPort: 8080
+          name: http
+# kubectl create -f httpd-pod.yml
+pod "httpd-pod" created
+# kubectl get pods
+NAME        READY     STATUS              RESTARTS   AGE
+httpd-pod   0/1       ContainerCreating   0          32s
+# kubectl get pods
+NAME        READY     STATUS    RESTARTS   AGE
+httpd-pod   1/1       Running   0          1m
+# kubectl describe pods httpd-pod
+Name:           httpd-pod
+Namespace:      default
+Node:           ${KUBE_NODE_FQDN}/${KUBE_NODE_IP}
+Start Time:     Thu, 02 Mar 2017 01:46:27 +0700
+Labels:         <none>
+Status:         Running
+IP:             172.17.0.2
+Controllers:    <none>
+Containers:
+  centos1:
+    Container ID:               docker://ac377f85cf54dc2a5fa9eaabde0f2448e934068dd061080e15bc5525b31f6c03
+    Image:                      httpd
+    Image ID:                   docker-pullable://docker.io/httpd@sha256:81fa70287ee1d56fb9156f6f89137363c50c40dd088a46568f4c2f7a901e2674
+    Port:                       80/TCP
+    State:                      Running
+      Started:                  Thu, 02 Mar 2017 01:46:32 +0700
+    Ready:                      True
+    Restart Count:              0
+    Volume Mounts:              <none>
+    Environment Variables:      <none>
+# docker ps
+CONTAINER ID        IMAGE                                                        COMMAND              CREATED              STATUS              PORTS                  NAMES
+ac377f85cf54        httpd                                                        "httpd-foreground"   About a minute ago   Up About a minute                          k8s_centos1.70d00061_httpd-pod_default_606beb74-feaf-11e6-85eb-00505681075c_829283c3
+1ae854d7d8ac        registry.access.redhat.com/rhel7/pod-infrastructure:latest   "/pod"               About a minute ago   Up About a minute   0.0.0.0:8080->80/tcp   k8s_POD.bb810da1_httpd-pod_default_606beb74-feaf-11e6-85eb-00505681075c_12860aee
+```
+
+# Create service
+```bash
+# vi httpd-service.yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpd-service
+spec:
+  selector:
+    app: httpd-pod
+  ports:
+    - port: 8080
+  type: LoadBalancer
+# kubectl create -f httpd-service.yml
+service "httpd-service" created
+# kubectl get services
+NAME            CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
+httpd-service   10.254.22.69   <pending>     8080/TCP   1m
+kubernetes      10.254.0.1     <none>        443/TCP    3m
+[root@kubernetes ~]#
+```
+
+# Verification
+```bash
+# curl http://${KUBE_NODE_FQDN}:8080
+<html><body><h1>It works!</h1></body></html>
+# kubectl delete pods --all
+pod "httpd-pod" deleted
+# kubectl delete services --all
+service "httpd-service" deleted
+service "kubernetes" deleted
 ```
