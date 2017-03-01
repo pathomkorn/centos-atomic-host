@@ -34,6 +34,27 @@ Deployments:
                 Signature made Tue 05 Apr 2016 04:33:10 AM ICT using RSA key ID F17E745691BA8335
                 Good signature from "CentOS Atomic SIG <security@centos.org>"
 ```
+* Show docker verion
+```bash
+# docker version
+Client:
+ Version:         1.12.5
+ API version:     1.24
+ Package version: docker-common-1.12.5-14.el7.centos.x86_64
+ Go version:      go1.7.4
+ Git commit:      047e51b/1.12.5
+ Built:           Mon Jan 23 15:35:13 2017
+ OS/Arch:         linux/amd64
+
+Server:
+ Version:         1.12.5
+ API version:     1.24
+ Package version: docker-common-1.12.5-14.el7.centos.x86_64
+ Go version:      go1.7.4
+ Git commit:      047e51b/1.12.5
+ Built:           Mon Jan 23 15:35:13 2017
+ OS/Arch:         linux/amd64
+```
 * Add proxy server for docker
 ```bash
 # mkdir /etc/systemd/system/docker.service.d
@@ -42,33 +63,22 @@ Deployments:
 # systemctl daemon-reload
 # systemctl restart docker
 ```
-* Search docker image from public registries
+* Search fedora docker image from public registries with 4 stars
 ```bash
-# docker search fedora
-INDEX       NAME                                    DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
-docker.io   docker.io/fedora                        Official Docker builds of Fedora                500       [OK]
-docker.io   docker.io/mattsch/fedora-nzbhydra       Fedora NZBHydra                                 4                    [OK]
-docker.io   docker.io/dockingbay/fedora-rust        Trusted build of Rust programming language...   3                    [OK]
-docker.io   docker.io/startx/fedora                 Simple container used for all startx based...   3                    [OK]
-docker.io   docker.io/darksheer/fedora              Hourly update latest Fedora Image               1                    [OK]
-docker.io   docker.io/darksheer/fedora22            Base Fedora 22 Image -- Updated hourly          1                    [OK]
-docker.io   docker.io/darksheer/fedora23            Hourly updated Fedora 23                        1                    [OK]
-docker.io   docker.io/mattsch/fedora-rpmfusion      Base container for Fedora with RPM Fusion ...   1                    [OK]
-docker.io   docker.io/pacur/fedora-22               Pacur Fedora 22                                 1                    [OK]
-docker.io   docker.io/heichblatt/fedora-pkgsrc      pkgsrc on latest Fedora                         0                    [OK]
-docker.io   docker.io/kino/fedora                   fedora base                                     0                    [OK]
-docker.io   docker.io/krystalcode/fedora            Fedora base image that includes some addit...   0                    [OK]
-docker.io   docker.io/mattsch/fedora-couchpotato    Fedora Couchpotato                              0                    [OK]
-docker.io   docker.io/mattsch/fedora-htpc           Fedora HTPC                                     0                    [OK]
-docker.io   docker.io/mattsch/fedora-nzbget         Fedora NZBGet                                   0                    [OK]
-docker.io   docker.io/mattsch/fedora-plex           Fedora Plex                                     0                    [OK]
-docker.io   docker.io/mattsch/fedora-sonarr         Fedora Sonarr                                   0                    [OK]
-docker.io   docker.io/mattsch/fedora-transmission   Fedora Transmission                             0                    [OK]
-docker.io   docker.io/opencpu/fedora                Stable version of opencpu for Fedora            0                    [OK]
-docker.io   docker.io/qnib/fedora                   Base QNIBTerminal image of fedora               0                    [OK]
-docker.io   docker.io/smartentry/fedora             fedora with smartentry                          0                    [OK]
-docker.io   docker.io/termbox/fedora                Fedora                                          0                    [OK]
-docker.io   docker.io/vcatechnology/fedora          A Fedora image that is updated daily            0                    [OK]
-docker.io   docker.io/vcatechnology/fedora-ci       A Fedora image that is used in the VCA Tec...   0                    [OK]
-docker.io   docker.io/zartsoft/fedora               Base fedora image                               0                    [OK]
+# docker search -s 4 fedora
+Flag --stars has been deprecated, use --filter=stars=3 instead
+INDEX       NAME                                DESCRIPTION                        STARS     OFFICIAL   AUTOMATED
+docker.io   docker.io/fedora                    Official Docker builds of Fedora   500       [OK]
+docker.io   docker.io/mattsch/fedora-nzbhydra   Fedora NZBHydra                    4                    [OK]
+```
+* Download fedora docker image
+```bash
+# docker pull fedora
+Using default tag: latest
+Trying to pull repository docker.io/library/fedora ...
+latest: Pulling from docker.io/library/fedora
+1b39978eabd9: Pull complete
+Digest: sha256:8d3f642aa4d3fa8f9dc52ab0e3bbbe8bc2494843dc6ebb26c4a6958db888e5a2
+-bash-4.2#
+
 ```
