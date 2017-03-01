@@ -15,6 +15,15 @@ proxy=http://${PROXY_SERVER}:${PROXY_PORT}
 ```bash
 # setenforce 0
 # atomic host upgrade
+# systemctl restart
+```
+* Note: You may have to re-assign network device to connection after reboot
+```bash
+# nmcli connection modify eno16780032 connection.interface-name ens192
+# nmcli connection up eno16780032
+```
+* Check new version
+```bash
 # atomic host status
 State: idle
 Deployments:
