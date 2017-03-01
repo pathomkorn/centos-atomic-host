@@ -111,3 +111,94 @@ Deleted: sha256:bf973ec11f37bce787f28f7ccf15aa42e6c20188c5267caea4973f802edec873
 # docker load -i ${DOCKER_IMAGE_FILE}
 # docker save ${DOCKER_IMAGE_NAME} > ${DOCKER_IMAGE_FILE}
 ```
+* Review docker images
+```bash
+# docker inspect fedora
+[
+    {
+        "Id": "sha256:1f8ec1108a3fd027acd5d0bcc574afc179d15e9469b887e015d92116b853eed8",
+        "RepoTags": [
+            "docker.io/fedora:latest"
+        ],
+        "RepoDigests": [
+            "docker.io/fedora@sha256:8d3f642aa4d3fa8f9dc52ab0e3bbbe8bc2494843dc6ebb26c4a6958db888e5a2"
+        ],
+        "Parent": "",
+        "Comment": "",
+        "Created": "2017-02-16T19:37:06.824586582Z",
+        "Container": "438ab85b4fe4f756c085b08d52328869fdde0df421108813aa019e487d91d233",
+        "ContainerConfig": {
+            "Hostname": "c10bc3f0ac50",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "DISTTAG=f25docker",
+                "FGC=f25",
+                "FBR=f25"
+            ],
+            "Cmd": [
+                "/bin/sh",
+                "-c",
+                "#(nop) ADD file:2efc47cd0582883f02e464968e0665e164cad7857111341f375f5803300f3d38 in / "
+            ],
+            "Image": "sha256:057229d9126f8db448b7571600df16a67749810321d07691e17a33109b652cbe",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": null,
+            "OnBuild": null,
+            "Labels": {}
+        },
+        "DockerVersion": "1.12.1",
+        "Author": "[Adam Miller \u003cmaxamillion@fedoraproject.org\u003e] [Patrick Uiterwijk \u003cpatrick@puiterwijk.org\u003e]",
+        "Config": {
+            "Hostname": "c10bc3f0ac50",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "DISTTAG=f25docker",
+                "FGC=f25",
+                "FBR=f25"
+            ],
+            "Cmd": null,
+            "Image": "sha256:057229d9126f8db448b7571600df16a67749810321d07691e17a33109b652cbe",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": null,
+            "OnBuild": null,
+            "Labels": {}
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 230335267,
+        "VirtualSize": 230335267,
+        "GraphDriver": {
+            "Name": "devicemapper",
+            "Data": {
+                "DeviceId": "4",
+                "DeviceName": "docker-253:0-7222-293c7211bc8ba5816e5234d2f78b9b7d57d1607a5420cbf816f869e25056eafb",
+                "DeviceSize": "107374182400"
+            }
+        },
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:bf973ec11f37bce787f28f7ccf15aa42e6c20188c5267caea4973f802edec873"
+            ]
+        }
+    }
+]
+```
