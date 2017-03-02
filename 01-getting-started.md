@@ -72,7 +72,7 @@ Server:
 # systemctl daemon-reload
 # systemctl restart docker
 ```
-* Search fedora docker image from public registries with 4 stars
+* Search fedora docker image from public registries with 4 stars on https://hub.docker.com/search/?isAutomated=0&isOfficial=0&page=1&pullCount=0&q=fedora&starCount=0
 ```bash
 # docker search -s 4 fedora
 Flag --stars has been deprecated, use --filter=stars=3 instead
