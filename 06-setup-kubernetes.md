@@ -248,5 +248,6 @@ NAME             READY     STATUS              RESTARTS   AGE
 httpd-rc-jnaze   1/1       Running             0          7m
 httpd-rc-l0snc   0/1       ContainerCreating   0          2s
 httpd-rc-se2si   1/1       Running             0          7m
-
+# kubectl delete replicationControllers --all
+replicationcontroller "httpd-rc" deleted
 ```
