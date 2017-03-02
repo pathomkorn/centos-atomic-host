@@ -187,3 +187,66 @@ pod "httpd-pod" deleted
 service "httpd-service" deleted
 service "kubernetes" deleted
 ```
+
+# Use Replication Controller
+```bash
+# vi httpd-rc.yml
+kind: ReplicationController
+metadata:
+  name: httpd-rc
+spec:
+  replicas: 3
+  selector:
+    run: httpd
+  template:
+    metadata:
+      name: httpd
+      labels:
+        run: httpd
+    spec:
+      containers:
+      - name: httpd
+        image: httpd
+        ports:
+        - containerPort: 80
+# kubectl create -f httpd-rc.yml
+# kubectl describe replicationControllers httpd-rc
+Name:           httpd-rc
+Namespace:      default
+Image(s):       httpd
+Selector:       run=httpd
+Labels:         run=httpd
+Replicas:       3 current / 3 desired
+Pods Status:    3 Running / 0 Waiting / 0 Succeeded / 0 Failed
+No volumes.
+Events:
+  FirstSeen     LastSeen        Count   From                            SubobjectPath   Type            Reason              Message
+  ---------     --------        -----   ----                            -------------   --------        ------              -------
+  6m            6m              1       {replication-controller }                       Normal          SuccessfulCreate    Created pod: httpd-rc-airxy
+  6m            6m              1       {replication-controller }                       Normal          SuccessfulCreate    Created pod: httpd-rc-jnaze
+  6m            6m              1       {replication-controller }                       Normal          SuccessfulCreate    Created pod: httpd-rc-se2si
+# kubectl get pods
+NAME             READY     STATUS    RESTARTS   AGE
+httpd-rc-airxy   1/1       Running   0          3m
+httpd-rc-jnaze   1/1       Running   0          3m
+httpd-rc-se2si   1/1       Running   0          3m
+
+${KUBE_NODE1}# docker ps
+CONTAINER ID        IMAGE                                                        COMMAND              CREATED             STATUS              PORTS               NAMES
+2b5ee5848aaa        httpd                                                        "httpd-foreground"   3 minutes ago       Up 3 minutes                            k8s_httpd.15bcfd59_httpd-rc-se2si_default_a9e72ece-ff1a-11e6-85eb-00505681075c_63871044
+9cc3ab44e8fe        registry.access.redhat.com/rhel7/pod-infrastructure:latest   "/pod"               3 minutes ago       Up 3 minutes                            k8s_POD.a8590b41_httpd-rc-se2si_default_a9e72ece-ff1a-11e6-85eb-00505681075c_3f703a33
+${KUBE_NODE2}# docker ps
+CONTAINER ID        IMAGE                                                        COMMAND              CREATED              STATUS              PORTS               NAMES
+f4ecd5d102ce        httpd                                                        "httpd-foreground"   26 seconds ago       Up 25 seconds                           k8s_httpd.15bcfd59_httpd-rc-jnaze_default_a9e75a21-ff1a-11e6-85eb-00505681075c_d1240b6c
+ec1c700efef0        httpd                                                        "httpd-foreground"   30 seconds ago       Up 28 seconds                           k8s_httpd.15bcfd59_httpd-rc-airxy_default_a9e6f950-ff1a-11e6-85eb-00505681075c_8f7a4911
+4bdecadddf58        registry.access.redhat.com/rhel7/pod-infrastructure:latest   "/pod"               About a minute ago   Up About a minute                       k8s_POD.a8590b41_httpd-rc-jnaze_default_a9e75a21-ff1a-11e6-85eb-00505681075c_abebd2d5
+bedd0994dd0e        registry.access.redhat.com/rhel7/pod-infrastructure:latest   "/pod"               About a minute ago   Up About a minute                       k8s_POD.a8590b41_httpd-rc-airxy_default_a9e6f950-ff1a-11e6-85eb-00505681075c_1e1ea1ea
+[root@kubernetes ~]# kubectl delete pods httpd-rc-airxy
+pod "httpd-rc-airxy" deleted
+[root@kubernetes ~]# kubectl get pods
+NAME             READY     STATUS              RESTARTS   AGE
+httpd-rc-jnaze   1/1       Running             0          7m
+httpd-rc-l0snc   0/1       ContainerCreating   0          2s
+httpd-rc-se2si   1/1       Running             0          7m
+
+```
