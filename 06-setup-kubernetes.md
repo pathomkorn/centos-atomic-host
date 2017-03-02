@@ -241,13 +241,47 @@ f4ecd5d102ce        httpd                                                       
 ec1c700efef0        httpd                                                        "httpd-foreground"   30 seconds ago       Up 28 seconds                           k8s_httpd.15bcfd59_httpd-rc-airxy_default_a9e6f950-ff1a-11e6-85eb-00505681075c_8f7a4911
 4bdecadddf58        registry.access.redhat.com/rhel7/pod-infrastructure:latest   "/pod"               About a minute ago   Up About a minute                       k8s_POD.a8590b41_httpd-rc-jnaze_default_a9e75a21-ff1a-11e6-85eb-00505681075c_abebd2d5
 bedd0994dd0e        registry.access.redhat.com/rhel7/pod-infrastructure:latest   "/pod"               About a minute ago   Up About a minute                       k8s_POD.a8590b41_httpd-rc-airxy_default_a9e6f950-ff1a-11e6-85eb-00505681075c_1e1ea1ea
-[root@kubernetes ~]# kubectl delete pods httpd-rc-airxy
+# kubectl delete pods httpd-rc-airxy
 pod "httpd-rc-airxy" deleted
-[root@kubernetes ~]# kubectl get pods
+# kubectl get pods
 NAME             READY     STATUS              RESTARTS   AGE
 httpd-rc-jnaze   1/1       Running             0          7m
 httpd-rc-l0snc   0/1       ContainerCreating   0          2s
 httpd-rc-se2si   1/1       Running             0          7m
+# vi httpd-rc.yml
+kind: ReplicationController
+metadata:
+  name: httpd-rc
+spec:
+  replicas: 5
+  selector:
+    run: httpd
+  template:
+    metadata:
+      name: httpd
+      labels:
+        run: httpd
+    spec:
+      containers:
+      - name: httpd
+        image: httpd
+        ports:
+        - containerPort: 80
+# kubectl replace -f httpd-rc.yml
+# kubectl get pods
+NAME             READY     STATUS              RESTARTS   AGE
+httpd-rc-bht11   0/1       ContainerCreating   0          3s
+httpd-rc-evce8   1/1       Running             0          4m
+httpd-rc-frsb5   1/1       Running             0          2m
+httpd-rc-ohdia   1/1       Running             0          4m
+httpd-rc-ydddm   1/1       Running             0          4m
+# kubectl get pods
+NAME             READY     STATUS    RESTARTS   AGE
+httpd-rc-bht11   1/1       Running   0          38s
+httpd-rc-evce8   1/1       Running   0          5m
+httpd-rc-frsb5   1/1       Running   0          3m
+httpd-rc-ohdia   1/1       Running   0          5m
+httpd-rc-ydddm   1/1       Running   0          5m
 # kubectl delete replicationControllers --all
 replicationcontroller "httpd-rc" deleted
 ```
